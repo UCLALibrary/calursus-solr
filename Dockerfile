@@ -1,3 +1,3 @@
 FROM solr
 
-ADD --chown=solr:solr calursus.tar.gz /opt/solr/server/solr/mycores/
+ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/
