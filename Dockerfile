@@ -1,3 +1,3 @@
-FROM solr:6.5
+FROM solr:7.4
 
-ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/
+ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/calursus
