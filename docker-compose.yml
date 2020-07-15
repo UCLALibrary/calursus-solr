@@ -1,0 +1,8 @@
+version: "3.6"
+
+services:
+  solr:
+    build: .
+    image: uclalibrary/solr-ursus
+    ports:
+      - "127.0.0.1:7983:8983"
