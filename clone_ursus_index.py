@@ -42,6 +42,21 @@ def clone_solr_core(source_url, destination_url):
 def process_doc(doc):
     for key in ['_version_', 'score', 'date_dtsort', 'hashed_id_ssi']:
         doc.pop(key, None)
+    
+    # Facet fields aren't stored, so populate them from the stored equivalents
+    doc.update({
+        "features_sim": doc.get('features_tesim'),
+        "genre_sim": doc.get('genre_tesim'),
+        "human_readable_language_sim": doc.get('human_readable_language_tesim'),
+        "human_readable_resource_type_sim": doc.get('human_readable_resource_type_tesim'),
+        "location_sim": doc.get('location_tesim'),
+        "named_subject_sim": doc.get('named_subject_tesim'),
+        "place_of_origin_sim": doc.get('place_of_origin_tesim'),
+        "script_sim": doc.get('script_tesim'),
+        "subject_sim": doc.get('subject_tesim'),
+        "support_sim": doc.get('support_tesim'),
+        "writing_system_sim": doc.get('writing_system_tesim'),
+    })
     return doc
 
 # def load_csv(filename: str, solr_url: typing.Optional[str]):
