@@ -24,28 +24,37 @@ def clone_solr_core(source_url, destination_url):
     source_solr = Solr(source_url, always_commit=True)
     destination_solr = Solr(destination_url, always_commit=True)
 
-    n_hits = float('inf')  # but will update from first chunk results
-    start = 0
-    chunk_size = 1000
-    while start < n_hits:
-        print(f"{start+1} to {min(start+chunk_size, n_hits)} of {n_hits}")
-        chunk = source_solr.search(
-            "has_model_ssim:(Collection OR Work)",
+    
+    chunk = source_solr.search(
+            "has_model_ssim:Collection",
             defType="lucene", 
-            start=start,
-            rows=chunk_size,
+            start=0,
+            rows=100,
         )
-        n_hits = chunk.hits
-        destination_solr.add([process_doc(d) for d in chunk.docs], overwrite=True)
-        start += chunk_size
+    destination_solr.add([process_doc(d,source_solr,destination_solr) for d in chunk.docs], overwrite=True)
 
-def process_doc(doc):
-    for key in ['_version_', 'score', 'date_dtsort', 'hashed_id_ssi']:
+def process_doc(doc,source_solr,destination_solr):
+    for key in ['_version_', 'score', 'hashed_id_ssi']:
         doc.pop(key, None)
     
     # Facet fields aren't stored, so populate them from the stored equivalents
     doc.update({f"{field}_sim": doc.get(f"{field}_tesim") 
                 for field in [
+                    'associated_name',
+                    'uniform_title',
+                    'architect',
+                    'author',
+                    'rubricator',
+                    'translator',
+                    'illustrator',
+                    'caligrapher',
+                    'engraver',
+                    'printmaker',
+                    'editor',
+                    'creator',
+                    'keywords',
+                    'form',
+                    'names',
                     'commentator',
                     'composer',
                     'dimensions',
@@ -70,11 +79,27 @@ def process_doc(doc):
                     'support',
                     'writing_system',
                 ]
-    })
     # # If any facet fields don't fit the *_sim: *_tesim pattern, add them explicitly
     # doc.update({
     #     "features_sim": doc.get('features_tesim'),
     # })
+    })
+    if doc.get("has_model_ssim")[0] == 'Collection':    
+        n_hits = float('inf')  # but will update from first chunk results   
+        start = 0
+        chunk_size = 1000
+        while start < n_hits:
+            print(f"{start+1} to {min(start+chunk_size, n_hits)} of {n_hits}")
+            chunk = source_solr.search(
+                "(has_model_ssim:Work) AND (member_of_collection_ids_ssim:" + doc.get("id") + ")",
+                defType="lucene", 
+                start=start,
+                rows=chunk_size,
+            )
+            n_hits = chunk.hits
+            destination_solr.add([process_doc(d,source_solr,destination_solr) for d in chunk.docs], overwrite=True)
+            start += chunk_size
+
     return doc
 
 # def load_csv(filename: str, solr_url: typing.Optional[str]):
