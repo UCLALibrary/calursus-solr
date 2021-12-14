@@ -78,6 +78,7 @@ def process_doc(doc,source_solr,destination_solr):
                     'subject',
                     'support',
                     'writing_system',
+                    'collection',
                 ]
     # # If any facet fields don't fit the *_sim: *_tesim pattern, add them explicitly
     # doc.update({
