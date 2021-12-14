@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y git
 RUN mkdir /home/solr && chown solr:solr /home/solr
 USER solr
 
-RUN git clone --depth 1 --branch master --single-branch https://github.com/UCLALibrary/californica.git ~/californica
+RUN git clone --depth 1 --branch main --single-branch https://github.com/UCLALibrary/californica.git ~/californica
 RUN mkdir --parents /opt/solr/server/solr/mycores/californica/data 
 RUN touch /opt/solr/server/solr/mycores/californica/core.properties 
 RUN mv ~/californica/solr/config /opt/solr/server/solr/mycores/californica/conf
