@@ -24,16 +24,24 @@ def clone_solr_core(source_url, destination_url):
     source_solr = Solr(source_url, always_commit=True)
     destination_solr = Solr(destination_url, always_commit=True)
 
-    
-    chunk = source_solr.search(
-            "has_model_ssim:Collection",
-            defType="lucene", 
-            start=0,
-            rows=100,
-        )
+    if "sinai" in destination_url:
+        chunk = source_solr.search(
+                "*:*",
+                defType="lucene", 
+                start=0,
+                rows=1000,
+            )
+    else:
+        chunk = source_solr.search(
+                "has_model_ssim:Collection",
+                defType="lucene", 
+                start=0,
+                rows=200,
+            )
     destination_solr.add([process_doc(d,source_solr,destination_solr) for d in chunk.docs], overwrite=True)
 
 def process_doc(doc,source_solr,destination_solr):
+    print("hello")
     for key in ['_version_', 'score', 'hashed_id_ssi']:
         doc.pop(key, None)
     
