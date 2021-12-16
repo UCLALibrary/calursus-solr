@@ -41,7 +41,6 @@ def clone_solr_core(source_url, destination_url):
     destination_solr.add([process_doc(d,source_solr,destination_solr) for d in chunk.docs], overwrite=True)
 
 def process_doc(doc,source_solr,destination_solr):
-    print("hello")
     for key in ['_version_', 'score', 'hashed_id_ssi']:
         doc.pop(key, None)
     
