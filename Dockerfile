@@ -1,6 +1,3 @@
 FROM solr:7.4
 
-
-ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/californica
-ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/ursus
-ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/sinai
+COPY --from=uclalibrary/solr-ursus:2021-12-14 /opt/solr/server/solr/mycores /opt/solr/server/solr/mycores
