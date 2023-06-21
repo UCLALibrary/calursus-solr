@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "solr-copy"
+version = "0.1.0"
+description = ""
+authors = ["Andy Wallace <andrewwallace@library.ucla.edu>"]
+readme = "README.md"
+packages = [{include = "solr_copy"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+click = "^8.1.3"
+pysolr = "^3.9.0"
+rich = "^13.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

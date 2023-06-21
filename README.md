@@ -6,15 +6,15 @@ Solr index for uclalibrary/ursus local development and testing, populated by clo
 
 ### Prerequisites
 
-- Python >= 3.5
-- [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today)
+- Python >= 3.11
+- [poetry](http://python-poetry.org)
 - [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/)
 - Direct API access to the Ursus and Sinai solr cores - for example by running on a UCLA Library server or by setting up ssh port forwarding via the jump server.
 
 ### Install Python dependencies
 
 ```
-pipenv install
+poetry install
 ```
 
 ### Build and start the container
@@ -27,8 +27,8 @@ docker-compose up --detach
 ### Clone the solr cores
 
 ```
-pipenv run python3 clone_ursus_index.py http://[URSUS_SOLR_URL]/solr/calursus http://localhost:7983/solr/ursus
-pipenv run python3 clone_ursus_index.py http://[SINAI_SOLR_URL]/solr/sinaimanu http://localhost:7983/solr/sinai
+poetry run python3 clone_ursus_index.py http://[URSUS_SOLR_URL]/solr/calursus http://localhost:7983/solr/ursus
+poetry run python3 clone_ursus_index.py http://[SINAI_SOLR_URL]/solr/sinaimanu http://localhost:7983/solr/sinai
 ```
 
 ### Commit and push to dockerhub
