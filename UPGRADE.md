@@ -37,3 +37,18 @@ probably already done
     - `rsync -Pia /tmp/sinaimanu/. /var/solr/data/sinaimanu/.`
     - `chown -R solr:solr /var/solr/data/sinaimanu`
 - `systemctl start solr.service`
+
+## Migrate Ursus
+
+- edit `.env.production` to point to calursus core
+  - `SOLR_URL=http://s-u-californicasolr01.library.ucla.edu/solr/calursus`
+- restart rails
+  - `systemctl restart httpd.service`
+- install Solr (see above)
+- copy in the configs (see above, use the correct hostname)
+  - `s-u-calursussolrslave01`
+- sync the core
+  - `/usr/local/sbin/solr-rsync-replication`
+- un-edit `.env.production`
+- re-restart rails
+  - `systemctl restart httpd.service`
