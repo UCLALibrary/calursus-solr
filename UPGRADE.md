@@ -56,3 +56,34 @@ probably already done
 ## Ensure proper ownerships of all solr config files
 
 - `chown -R solr:solr /var/solr/*`
+
+## Solr Upgrade Status
+
+### Solr 7 sites without Solr 8 installed:
+
+- p-u-californicasolr-ingest01.library.ucla.edu
+- p-u-ohsolr01.library.ucla.edu
+- s-u-ohsolr01.library.ucla.edu
+- t-u-ohsolr01.library.ucla.edu
+- p-u-calursussolrslave-ingest01.library.ucla.edu
+- p-w-avalonsolr01.library.ucla.edu
+- p-u-calursussolrmaster-ingest01.library.ucla.edu
+
+### Solr 8.11.1 Installed
+
+d-u-californicasolr01.library.ucla.edu
+d-u-calursussolr01.library.ucla.edu
+p-u-sheetmusicsolr01.library.ucla.edu
+p-u-shorelinesolr01.library.ucla.edu
+p-u-sinaipalimpsolr01.library.ucla.edu
+s-u-californicasolr01.library.ucla.edu
+s-u-calursussolrmaster01.library.ucla.edu
+s-u-calursussolrslave01.library.ucla.edu
+t-u-calursussolrmaster01.library.ucla.edu
+t-u-calursussolrslave01.library.ucla.edu
+
+### Solr 8.11.2 Insstalled
+
+d-u-sinaimanuscriptssolr01.library.ucla.edu
+d-w-avalonsolr01.library.ucla.edu
+t-u-sinaimanuscriptssolr01.library.ucla.edu
