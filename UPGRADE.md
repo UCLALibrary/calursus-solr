@@ -52,3 +52,7 @@ probably already done
 - un-edit `.env.production`
 - re-restart rails
   - `systemctl restart httpd.service`
+
+## Ensure proper ownerships of all solr config files
+
+- `chown -R solr:solr /var/solr/*`
