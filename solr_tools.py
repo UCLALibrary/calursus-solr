@@ -4,6 +4,7 @@
 
 import os
 import re
+import time
 import typing
 
 import click
@@ -28,12 +29,12 @@ def clone(source_url, destination_url):
     with rich.progress.Progress() as progress:
         task = progress.add_task("Copying...", total=None)
 
-        source_solr = Solr(source_url, always_commit=True)
+        source_solr = Solr(source_url, timeout=10, always_commit=True)
         destination_solr = Solr(destination_url, always_commit=True)
 
         n_hits = float('inf')  # but will updasste from first chunk results   
         start = 0
-        chunk_size = 1000
+        chunk_size = 250
         while start < n_hits:
             chunk = source_solr.search(
                 "*:*",
@@ -48,14 +49,16 @@ def clone(source_url, destination_url):
                 destination_solr.add,
                 fargs=[processed_chunk],
                 fkwargs={"overwrite": True},
-                tries=3,
-                delay=6,
-                backoff=10,
+                # tries=3,
+                delay=1,
+                backoff=6,
+                max_delay=15*60, # 15 min
             )
 
             n_hits = chunk.hits
             start += chunk_size
             progress.update(task, total=n_hits, completed=start + len(chunk.docs))
+            time.sleep(1)
         
 def process_doc(doc):
     for key in ['_version_', 'score', 'hashed_id_ssi', 'suggest']:
