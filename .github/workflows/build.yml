@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'solr8'
 
 jobs:
   docker:
@@ -27,5 +26,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: uclalibrary/solr-ursus:7.4
+          tags: uclalibrary/solr-ursus:8.11.1
           platforms: linux/amd64,linux/arm64

@@ -1,6 +1,5 @@
-FROM solr:7.4
+FROM solr:8.11.1
 
-
-ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/californica
-ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/ursus
-ADD --chown=solr:solr calursus /opt/solr/server/solr/mycores/sinai
+ADD --chown=solr:solr calursus /var/solr/data/californica
+ADD --chown=solr:solr calursus /var/solr/data/ursus
+ADD --chown=solr:solr calursus /var/solr/data/sinai

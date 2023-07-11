@@ -3,17 +3,6 @@ version: "3.6"
 services:
   solr:
     build: .
-    image: uclalibrary/solr-ursus
-    volumes:
-      - calursus-dev:/opt/solr/server/solr/mycores/calursus-dev
-      - calursus-test:/opt/solr/server/solr/mycores/calursus-test
-      - calursus-stage:/opt/solr/server/solr/mycores/calursus-stage
-      - calursus-prod:/opt/solr/server/solr/mycores/calursus-prod
+    image: uclalibrary/solr-ursus:solr8
     ports:
       - "127.0.0.1:7983:8983"
-
-volumes:
-  calursus-dev:
-  calursus-test:
-  calursus-stage:
-  calursus-prod:
