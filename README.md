@@ -56,7 +56,7 @@ TODO: Move this function to a subcommand of solr_tools.py
 
 ### Commit and push to dockerhub
 ```
-docker commit docker-solr-ursus_solr_1 uclalibrary/solr-ursus:[YYYY-MM-DD]
+docker commit calursus-solr-solr-1 uclalibrary/solr-ursus:[YYYY-MM-DD]
 docker push uclalibrary/solr-ursus:[YYYY-MM-DD]
 ```
 
