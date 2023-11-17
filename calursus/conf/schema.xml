@@ -324,6 +324,7 @@
     <copyField source="sourceFieldName" dest="destinationFieldName"/>
     -->
 
+  <copyField source="shelfmark_ssi" dest="shelfmark_alpha_numeric_ssort" />
   <copyField source="sort_title_ssort" dest="title_alpha_numeric_ssort" />
   <!-- <copyField source="*_tesim" dest="all_text_timv" maxChars="3000"/> -->
   <!-- for suggestions -->
