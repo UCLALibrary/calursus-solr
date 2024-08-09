@@ -120,6 +120,7 @@
 
   <field name="title_alpha_numeric_ssort" type="alphaNumericSort" indexed="true" stored="false" multiValued="false"/>
   <field name="date_dtsort" type="pdate" indexed="true" stored="true" multiValued="false"/>
+  <field name="shelfmark_alpha_numeric_ssort" type="alphaNumericSort" indexed="true" stored="true" multiValued="false"/>
   <!-- custom fields for calursus end 06/14/2022-->
 
   <!-- 06/14/2022 Parinita commented root and nest_path fields as we are not using child documents-->
@@ -327,6 +328,8 @@
   <copyField source="sort_title_ssort" dest="title_alpha_numeric_ssort" />
   <!-- <copyField source="*_tesim" dest="all_text_timv" maxChars="3000"/> -->
   <!-- for suggestions -->
+  <copyField source="shelfmark_ssi" dest="shelfmark_alpha_numeric_ssort" />
+  <copyField source="shelfmark_ssi" dest="shelfmark_tsi" />
   <copyField source="*_tesim" dest="suggest"/>
   <copyField source="*_ssim" dest="suggest"/>
   <!-- field type definitions. The "name" attribute is
