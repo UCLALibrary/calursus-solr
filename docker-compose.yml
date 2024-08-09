@@ -2,13 +2,9 @@ version: "3.6"
 
 services:
   solr:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: uclalibrary/solr-ursus:solr8
     ports:
       - "127.0.0.1:8983:8983"
-
-  solr7:
-    build: .
-    image: uclalibrary/solr-ursus:2021-12-14
-    ports:
-      - "127.0.0.1:8984:8983"
