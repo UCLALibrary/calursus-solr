@@ -1,0 +1,24 @@
+services:
+
+  solr:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - '127.0.0.1:8983:8983'
+
+  solr_test:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - '127.0.0.1:8985:8983'
+  
+  test:
+    depends_on:
+      - solr_test
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test
+    environment:
+      - SOLR_TEST_URL=http://solr_test:8983/solr/ursus

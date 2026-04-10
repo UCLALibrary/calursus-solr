@@ -1,3 +1,4 @@
 # editor stuff
 settings.json
 .DS_Store
+__pycache__
