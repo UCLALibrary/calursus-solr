@@ -120,7 +120,7 @@
   <field name="lat" type="pdouble" stored="true" indexed="true" multiValued="false" />
   <field name="lng" type="pdouble" stored="true" indexed="true" multiValued="false" />
 
-  <field name="title_alpha_numeric_ssort" type="icuCollationSort" indexed="true" stored="false"
+  <field name="title_alpha_numeric_ssort" type="alphaNumericSort" indexed="true" stored="false"
     multiValued="false" />
   <field name="date_dtsort" type="pdate" indexed="true" stored="true" multiValued="false" />
   <!-- custom fields for ursus end 06/14/2022-->
@@ -226,7 +226,8 @@
   <dynamicField name="*_ssm" type="string" stored="true" indexed="false" multiValued="true" />
   <dynamicField name="*_ssi" type="string" stored="true" indexed="true" multiValued="false" />
   <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true" />
-  <dynamicField name="*_ssort" type="icuCollationSort" stored="false" indexed="true" multiValued="false" />
+  <dynamicField name="*_ssort" type="alphaSort" stored="false" indexed="true" multiValued="false" />
+  <dynamicField name="*_tsort" type="icuCollationSort" stored="false" indexed="true" multiValued="false" />
 
   <!-- integer (_i...) -->
   <dynamicField name="*_ii" type="pint" stored="false" indexed="true" multiValued="false" />
@@ -442,6 +443,37 @@
   <fieldType name="rank" class="solr.RankField" />
 
   <!-- Custom fields for ursus -->
+
+  <fieldType name="alphaNumericSort" class="solr.TextField" sortMissingLast="false" omitNorms="true">
+    <analyzer>
+      <!-- KeywordTokenizer does no actual tokenizing, so the entire
+            input string is preserved as a single token -->
+      <tokenizer class="solr.KeywordTokenizerFactory" />
+      <!-- The LowerCase TokenFilter does what you expect, which can be
+            when you want your sorting to be case insensitive -->
+      <filter class="solr.LowerCaseFilterFactory" />
+      <!-- The TrimFilter removes any leading or trailing whitespace -->
+      <filter class="solr.TrimFilterFactory" />
+      <!-- Left-pad numbers with zeroes -->
+      <filter class="solr.PatternReplaceFilterFactory" pattern="(\d+)" replacement="00000$1"
+        replace="all" />
+      <!-- Left-trim zeroes to produce 6 digit numbers -->
+      <filter class="solr.PatternReplaceFilterFactory" pattern="0*([0-9]{6,})" replacement="$1"
+        replace="all" />
+      <!-- Remove all but alphanumeric characters -->
+      <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z0-9])" replacement=""
+        replace="all" />
+    </analyzer>
+  </fieldType>
+
+  <!-- single token analyzed text, for sorting.  Punctuation is significant. -->
+  <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory" />
+      <filter class="solr.ICUFoldingFilterFactory" />
+      <filter class="solr.TrimFilterFactory" />
+    </analyzer>
+  </fieldtype>
 
   <fieldType 
     name="icuCollationSort"

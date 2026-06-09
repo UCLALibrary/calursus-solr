@@ -8,28 +8,29 @@ SOLR_URL = os.getenv("SOLR_TEST_URL")
 
 
 class TestSort(TestCase):
-    def setUp(self):
-        requests.post(
-            f"{SOLR_URL}/update?commit=true",
-            json={"delete": {"query": "*:*"}},
-            headers={"Content-Type": "application/json"},
-        )
+    # def setUp(self):
+    #     requests.post(
+    #         f"{SOLR_URL}/update?commit=true",
+    #         json={"delete": {"query": "*:*"}},
+    #         headers={"Content-Type": "application/json"},
+    #     )
 
-    def tearDown(self):
-        requests.post(
-            f"{SOLR_URL}/update?commit=true",
-            json={"delete": {"query": "*:*"}},
-            headers={"Content-Type": "application/json"},
-        )
+    # def tearDown(self):
+    #     requests.post(
+    #         f"{SOLR_URL}/update?commit=true",
+    #         json={"delete": {"query": "*:*"}},
+    #         headers={"Content-Type": "application/json"},
+    #     )
 
     def test_sorts_non_latin(self):
+        print("HIIIIII")
         docs = [
-            {"id": "1", "title_alpha_numeric_ssort": "x"},
-            {"id": "2", "title_alpha_numeric_ssort": "y"},
-            {"id": "3", "title_alpha_numeric_ssort": "z"},
-            {"id": "4", "title_alpha_numeric_ssort": "あ(a)"},
-            {"id": "5", "title_alpha_numeric_ssort": "い(i)"},
-            {"id": "6", "title_alpha_numeric_ssort": "う(u)"},
+            {"id": "1", "title_tsort": "x"},
+            {"id": "2", "title_tsort": "y"},
+            {"id": "3", "title_tsort": "z"},
+            {"id": "4", "title_tsort": "あ(a)"},
+            {"id": "5", "title_tsort": "い(i)"},
+            {"id": "6", "title_tsort": "う(u)"},
         ]
         shuffle(docs)
 
@@ -43,7 +44,7 @@ class TestSort(TestCase):
         # Query documents, A–Z
         response_asc = requests.get(
             f"{SOLR_URL}/select",
-            params={"q": "*:*", "sort": "title_alpha_numeric_ssort asc"},
+            params={"q": "*:*", "sort": "title_tsort asc"},
         )
 
         order_asc = [doc["id"] for doc in response_asc.json()["response"]["docs"]]
@@ -52,16 +53,16 @@ class TestSort(TestCase):
         # Query documents, Z–A
         response_desc = requests.get(
             f"{SOLR_URL}/select",
-            params={"q": "*:*", "sort": "title_alpha_numeric_ssort desc"},
+            params={"q": "*:*", "sort": "title_tsort desc"},
         )
         order_asc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
         assert order_asc == ["6", "5", "4", "3", "2", "1"]
 
     def test_sorts_numeric(self):
         docs = [
-            {"id": "1", "title_alpha_numeric_ssort": "thing 1"},
-            {"id": "2", "title_alpha_numeric_ssort": "thing 9"},
-            {"id": "3", "title_alpha_numeric_ssort": "thing 10"},
+            {"id": "1", "title_tsort": "thing 1"},
+            {"id": "2", "title_tsort": "thing 9"},
+            {"id": "3", "title_tsort": "thing 10"},
         ]
         shuffle(docs)
 
@@ -75,7 +76,7 @@ class TestSort(TestCase):
         # Query documents, A–Z
         response_asc = requests.get(
             f"{SOLR_URL}/select",
-            params={"q": "*:*", "sort": "title_alpha_numeric_ssort asc"},
+            params={"q": "*:*", "sort": "title_tsort asc"},
         )
 
         order_asc = [doc["id"] for doc in response_asc.json()["response"]["docs"]]
@@ -84,7 +85,7 @@ class TestSort(TestCase):
         # Query documents, Z–A
         response_desc = requests.get(
             f"{SOLR_URL}/select",
-            params={"q": "*:*", "sort": "title_alpha_numeric_ssort desc"},
+            params={"q": "*:*", "sort": "title_tsort desc"},
         )
         order_asc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
         assert order_asc == ["3", "2", "1"]

@@ -21,4 +21,4 @@ services:
       context: .
       dockerfile: ./Dockerfile.test
     environment:
-      - SOLR_TEST_URL=http://solr_test:8983/solr/ursus
+      - SOLR_TEST_URL=http://solr_test:8985/solr/ursus
