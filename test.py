@@ -4,26 +4,25 @@ from unittest import TestCase
 
 import requests
 
-SOLR_URL = os.getenv("SOLR_TEST_URL")
+SOLR_URL = os.getenv("SOLR_TEST_URL", "http://localhost:8985/solr/ursus")
 
 
 class TestSort(TestCase):
-    # def setUp(self):
-    #     requests.post(
-    #         f"{SOLR_URL}/update?commit=true",
-    #         json={"delete": {"query": "*:*"}},
-    #         headers={"Content-Type": "application/json"},
-    #     )
+    def setUp(self):
+        requests.post(
+            f"{SOLR_URL}/update?commit=true",
+            json={"delete": {"query": "*:*"}},
+            headers={"Content-Type": "application/json"},
+        )
 
-    # def tearDown(self):
-    #     requests.post(
-    #         f"{SOLR_URL}/update?commit=true",
-    #         json={"delete": {"query": "*:*"}},
-    #         headers={"Content-Type": "application/json"},
-    #     )
+    def tearDown(self):
+        requests.post(
+            f"{SOLR_URL}/update?commit=true",
+            json={"delete": {"query": "*:*"}},
+            headers={"Content-Type": "application/json"},
+        )
 
     def test_sorts_non_latin(self):
-        print("HIIIIII")
         docs = [
             {"id": "1", "title_tsort": "x"},
             {"id": "2", "title_tsort": "y"},

@@ -13,12 +13,19 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - '127.0.0.1:8985:8983'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8983/solr/admin/info/system"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 2s
   
   test:
     depends_on:
-      - solr_test
+      solr_test:
+        condition: service_healthy
     build:
       context: .
       dockerfile: ./Dockerfile.test
     environment:
-      - SOLR_TEST_URL=http://solr_test:8985/solr/ursus
+      - SOLR_TEST_URL=http://solr_test:8983/solr/ursus
