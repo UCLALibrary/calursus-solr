@@ -1,0 +1,9 @@
+FROM python:3.14
+
+COPY ./requirements.txt /calursus-solr/requirements.txt
+RUN pip install -r /calursus-solr/requirements.txt
+
+WORKDIR /calursus-solr
+COPY . /calursus-solr/
+
+CMD [ "python", "-m", "unittest" ]

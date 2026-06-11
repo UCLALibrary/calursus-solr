@@ -227,6 +227,7 @@
   <dynamicField name="*_ssi" type="string" stored="true" indexed="true" multiValued="false" />
   <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true" />
   <dynamicField name="*_ssort" type="alphaSort" stored="false" indexed="true" multiValued="false" />
+  <dynamicField name="*_tsort" type="icuCollationSort" stored="false" indexed="true" multiValued="false" />
 
   <!-- integer (_i...) -->
   <dynamicField name="*_ii" type="pint" stored="false" indexed="true" multiValued="false" />
@@ -473,6 +474,15 @@
       <filter class="solr.TrimFilterFactory" />
     </analyzer>
   </fieldtype>
+
+  <fieldType 
+    name="icuCollationSort"
+    class="solr.ICUCollationField"
+    locale="en-US"
+    numeric="true"
+    alternate="shifted"
+  />
+
   <fieldType class="solr.TextField" name="textSuggest" positionIncrementGap="100">
     <analyzer>
       <tokenizer class="solr.KeywordTokenizerFactory" />
