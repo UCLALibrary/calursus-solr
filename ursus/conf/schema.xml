@@ -480,6 +480,7 @@
     class="solr.ICUCollationField"
     locale="en-US"
     numeric="true"
+    alternate="shifted"
   />
 
   <fieldType class="solr.TextField" name="textSuggest" positionIncrementGap="100">

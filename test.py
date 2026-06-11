@@ -88,3 +88,35 @@ class TestSort(TestCase):
         )
         order_asc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
         assert order_asc == ["3", "2", "1"]
+
+    def test_ignores_punctuation(self):
+        docs = [
+            {"id": "1", "title_tsort": "a"},
+            {"id": "2", "title_tsort": "'''b"},
+            {"id": "3", "title_tsort": "c"},
+        ]
+        shuffle(docs)
+
+        # Index documents
+        requests.post(
+            f"{SOLR_URL}/update?commit=true",
+            json=docs,
+            headers={"Content-Type": "application/json"},
+        )
+
+        # Query documents, A–Z
+        response_asc = requests.get(
+            f"{SOLR_URL}/select",
+            params={"q": "*:*", "sort": "title_tsort asc"},
+        )
+
+        order_asc = [doc["id"] for doc in response_asc.json()["response"]["docs"]]
+        self.assertEqual(order_asc, ["1", "2", "3"])
+
+        # Query documents, Z–A
+        response_desc = requests.get(
+            f"{SOLR_URL}/select",
+            params={"q": "*:*", "sort": "title_tsort desc"},
+        )
+        order_asc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
+        assert order_asc == ["3", "2", "1"]

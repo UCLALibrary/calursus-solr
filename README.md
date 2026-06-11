@@ -13,5 +13,5 @@ docker-compose run --renew-anon-volumes test
 
 ## Notes
 
-- There might be an issue with old config persisting on anonymous docker volumes, preventing updates from taking effect even after the docker image is rebuilt. (Or there might not, I haven't confirmed this.) Docker includes a flag that sounds like it will prevent this: `docker-compose up --detach --renew-anon-volumes`, and volumes can always be destroyed with `docker-compose down -v`
+- There might be an issue with old config persisting on anonymous docker volumes, preventing updates from taking effect even after the docker image is rebuilt. (Or there might not, I haven't confirmed this.) Docker includes a flag that sounds like it will prevent this, e.g. `docker-compose up --detach --renew-anon-volumes`, and volumes can always be destroyed with `docker-compose down -v`
 
