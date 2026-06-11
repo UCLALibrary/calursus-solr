@@ -54,8 +54,8 @@ class TestSort(TestCase):
             f"{SOLR_URL}/select",
             params={"q": "*:*", "sort": "title_tsort desc"},
         )
-        order_asc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
-        assert order_asc == ["6", "5", "4", "3", "2", "1"]
+        order_desc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
+        assert order_desc == ["6", "5", "4", "3", "2", "1"]
 
     def test_sorts_numeric(self):
         docs = [
@@ -86,8 +86,8 @@ class TestSort(TestCase):
             f"{SOLR_URL}/select",
             params={"q": "*:*", "sort": "title_tsort desc"},
         )
-        order_asc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
-        assert order_asc == ["3", "2", "1"]
+        order_desc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
+        assert order_desc == ["3", "2", "1"]
 
     def test_ignores_punctuation(self):
         docs = [
@@ -118,5 +118,5 @@ class TestSort(TestCase):
             f"{SOLR_URL}/select",
             params={"q": "*:*", "sort": "title_tsort desc"},
         )
-        order_asc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
-        assert order_asc == ["3", "2", "1"]
+        order_desc = [doc["id"] for doc in response_desc.json()["response"]["docs"]]
+        assert order_desc == ["3", "2", "1"]
